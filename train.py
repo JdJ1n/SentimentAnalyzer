@@ -79,7 +79,7 @@ print(f"Accuracy: {bert_acc}, F1 Score: {bert_f1}, Classifier: BERT, Params: 'ba
 accs.append(bert_acc)
 f1_scores.append(bert_f1)
 classifier_names.append('BERT')
-bert_params = {'batch_size': bert_batch_size}  # Add this line
+bert_params = {'batch_size': bert_batch_size}
 
 # Plotting
 x = np.arange(len(classifier_names))  # the label locations

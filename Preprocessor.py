@@ -43,14 +43,6 @@ class Preprocessor:
             return wordnet.ADV
         else:
             return wordnet.NOUN
-
-    def lemmatize(self):
-        from nltk.stem import WordNetLemmatizer
-        wnl = WordNetLemmatizer()
-        for i, tweet in tqdm(enumerate(self.data),'Lemmatization'):
-            for j, word in enumerate(tweet):
-                self.data[i][j] = wnl.lemmatize(word, pos=self.get_pos(word))
-        return self.data
     
     def stem(self):
         from nltk.stem import PorterStemmer

@@ -6,8 +6,6 @@ pandas
 torch
 tqdm
 matplotlib
-keras
 wordcloud
 pydot
 graphviz
-gensim
