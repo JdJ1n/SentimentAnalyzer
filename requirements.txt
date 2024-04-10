@@ -1,0 +1,13 @@
+scikit-learn
+transformers
+nltk
+numpy
+pandas
+torch
+tqdm
+matplotlib
+keras
+wordcloud
+pydot
+graphviz
+gensim
