@@ -4,15 +4,9 @@ from Vectorizer import Vectorizer
 from Classifier import Classifier
 from BERTClassifier import bert_classifier
 from sklearn.model_selection import train_test_split as split
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import cross_val_score
 from sklearn.metrics import f1_score
 import numpy as np
 import nltk
-import pandas as pd
-import torch
-import transformers as ppb
 import matplotlib.pyplot as plt
 import warnings
 

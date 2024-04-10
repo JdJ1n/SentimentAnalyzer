@@ -1,4 +1,3 @@
-import numpy as np
 import csv
 from tqdm import tqdm
 from sklearn.utils import shuffle
