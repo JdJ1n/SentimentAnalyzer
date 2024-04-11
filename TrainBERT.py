@@ -12,11 +12,9 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-warnings.filterwarnings('ignore')
-
 nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
-dr = DataReader('datasets/offenseval-training-v2.tsv', 'A')
+dr = DataReader('datasets/offenseval-training-v1.tsv', 'A')
 data, labels = dr.get_labelled_data()
 
 tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)

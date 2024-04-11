@@ -17,43 +17,56 @@ def bert_classifier(batch_size, dr):
         'labels': labels
     })
 
+    # df = df[:500]
+
+    # Manually split the dataset into training and testing
+    split_idx = int(len(df) * 0.7)
+    train_df, test_df = df[:split_idx], df[split_idx:]
+
     # Set up BERT tokenizer and model
     model_class, tokenizer_class, pretrained_weights = (ppb.BertModel, ppb.BertTokenizer, 'bert-base-uncased')
     tokenizer = tokenizer_class.from_pretrained(pretrained_weights)
     model = model_class.from_pretrained(pretrained_weights)
 
-    # Tokenize the text
-    tokenized = df['data'].apply((lambda x: tokenizer.encode(x, add_special_tokens=True)))
+    # Function to tokenize and extract features from a DataFrame
+    def tokenize_and_extract_features(dataframe):
+        # Tokenize the text
+        tokenized = dataframe['data'].apply((lambda x: tokenizer.encode(x, add_special_tokens=True)))
 
-    # Pad the tokenized data
-    max_len = max(len(i) for i in tokenized.values)
-    padded = np.array([i + [0] * (max_len - len(i)) for i in tokenized.values])
-    attention_mask = np.where(padded != 0, 1, 0)
+        # Pad the tokenized data
+        max_len = max(len(i) for i in tokenized.values)
+        padded = np.array([i + [0] * (max_len - len(i)) for i in tokenized.values])
+        attention_mask = np.where(padded != 0, 1, 0)
 
-    # Convert to PyTorch tensors
-    input_ids = torch.tensor(padded)
-    attention_mask = torch.tensor(attention_mask)
+        # Convert to PyTorch tensors
+        input_ids = torch.tensor(padded)
+        attention_mask = torch.tensor(attention_mask)
 
-    # Initialize an empty list to hold the BERT output
-    result = []
+        # Initialize an empty list to hold the BERT output
+        result = []
 
-    # Process the input data in batches
-    with torch.no_grad():
-        for i in range(0, input_ids.shape[0], batch_size):
-            last_hidden_states_for_batch = model(input_ids[i: i + batch_size],
-                                                 attention_mask=attention_mask[i: i + batch_size])
-            result.append(last_hidden_states_for_batch[0])
+        # Process the input data in batches
+        with torch.no_grad():
+            for i in range(0, input_ids.shape[0], batch_size):
+                last_hidden_states_for_batch = model(input_ids[i: i + batch_size],
+                                                     attention_mask=attention_mask[i: i + batch_size])
+                result.append(last_hidden_states_for_batch[0])
 
-    # Concatenate the results
-    last_hidden_states = torch.cat(result, dim=0)
+        # Concatenate the results
+        last_hidden_states = torch.cat(result, dim=0)
 
-    # Extract the features (the output of the [CLS] tokens)
-    features = last_hidden_states[:, 0, :].numpy()
+        # Extract the features (the output of the [CLS] tokens)
+        features = last_hidden_states[:, 0, :].numpy()
 
-    # Manually split the dataset into training and testing
-    split_idx = int(len(features) * 0.7)
-    train_features, test_features = features[:split_idx], features[split_idx:]
-    train_labels, test_labels = labels[:split_idx], labels[split_idx:]
+        return features
+
+    # Tokenize and extract features from the training and testing data
+    train_features = tokenize_and_extract_features(train_df)
+    test_features = tokenize_and_extract_features(test_df)
+
+    # Get the labels
+    train_labels = train_df['labels']
+    test_labels = test_df['labels']
 
     # Initialize and train the logistic regression classifier
     lr_clf = LogisticRegression()
