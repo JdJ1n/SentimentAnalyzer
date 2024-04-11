@@ -27,7 +27,7 @@ def bert_classifier(batch_size, dr):
 
     # Pad the tokenized data
     max_len = max(len(i) for i in tokenized.values)
-    padded = np.array([i + [0]*(max_len-len(i)) for i in tokenized.values])
+    padded = np.array([i + [0] * (max_len - len(i)) for i in tokenized.values])
     attention_mask = np.where(padded != 0, 1, 0)
 
     # Convert to PyTorch tensors
@@ -40,14 +40,15 @@ def bert_classifier(batch_size, dr):
     # Process the input data in batches
     with torch.no_grad():
         for i in range(0, input_ids.shape[0], batch_size):
-            last_hidden_states_for_batch = model(input_ids[i: i + batch_size], attention_mask=attention_mask[i: i + batch_size])
+            last_hidden_states_for_batch = model(input_ids[i: i + batch_size],
+                                                 attention_mask=attention_mask[i: i + batch_size])
             result.append(last_hidden_states_for_batch[0])
 
     # Concatenate the results
     last_hidden_states = torch.cat(result, dim=0)
 
     # Extract the features (the output of the [CLS] tokens)
-    features = last_hidden_states[:,0,:].numpy()
+    features = last_hidden_states[:, 0, :].numpy()
 
     # Manually split the dataset into training and testing
     split_idx = int(len(features) * 0.7)
@@ -64,4 +65,3 @@ def bert_classifier(batch_size, dr):
     f1 = f1_score(test_labels, pred, average='weighted')
 
     return acc, f1
-

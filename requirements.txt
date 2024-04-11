@@ -6,6 +6,3 @@ pandas
 torch
 tqdm
 matplotlib
-wordcloud
-pydot
-graphviz

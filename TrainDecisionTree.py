@@ -2,7 +2,6 @@ from DataReader import DataReader
 from Preprocessor import Preprocessor
 from Vectorizer import Vectorizer
 from Classifier import Classifier
-from BERTClassifier import bert_classifier
 from sklearn.model_selection import train_test_split as split
 from sklearn.metrics import f1_score
 import numpy as np
@@ -14,9 +13,8 @@ warnings.filterwarnings('ignore')
 
 nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
-dr = DataReader('datasets/offenseval-training-v1.tsv', 'A')
+dr = DataReader('datasets/offenseval-training-v2.tsv', 'A')
 data, labels = dr.get_labelled_data()
-data, labels = dr.shuffle(data, labels, 'random')
 
 tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)
 
@@ -55,7 +53,7 @@ for i in range(len(classifiers)):
 
     classifiers[i].fit(tr_vecs[i], tr_labels)
 
-plt.ion()  # 开启交互模式
+plt.ion()
 
 accs = []
 f1_scores = []
@@ -74,22 +72,11 @@ for i, clf in enumerate(classifiers):
     # Append classifier name for the plot
     classifier_names.append(clf.classifier.__name__)
 
-# Ajouter des data de BERT
-# bert_batch_size=40
-# bert_acc, bert_f1=bert_classifier(bert_batch_size,dr)
-# print(f"Accuracy: {bert_acc}, F1 Score: {bert_f1}, Classifier: BERT, Params: 'batch_size': {bert_batch_size}")
-#
-# # Add BERT data to the lists
-# accs.append(bert_acc)
-# f1_scores.append(bert_f1)
-# classifier_names.append('BERT')
-# bert_params = {'batch_size': bert_batch_size}
-
 # Plotting
 x = np.arange(len(classifier_names))  # the label locations
 width = 0.2  # the width of the bars
 
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(16, 9))
 rects1 = ax.bar(x - width / 2, accs, width, label='Accuracy')
 rects2 = ax.bar(x + width / 2, f1_scores, width, label='F1 Score')
 
@@ -99,12 +86,29 @@ ax.set_title(f'Scores by classifier (Train size: {len(tr_data)}, Test size: {len
 ax.set_xticks(x)
 
 # Add classifier parameters to x-axis labels
-ax.set_xticklabels([f'{name}\\nParams: {params}' for name, params in zip(classifier_names, [clf.params for clf in classifiers])], wrap=True, fontsize=8)  # Update this line
-plt.xticks(rotation=45)
+ax.set_xticklabels(
+    [f'{name}\nParams: {params}' for name, params in zip(classifier_names, [clf.params for clf in classifiers])],
+    wrap=True, fontsize=8)
+plt.xticks(rotation=30)
+
+for rect in rects1:
+    height = rect.get_height()
+    ax.annotate(f'{height:.5f}',
+                xy=(rect.get_x() + rect.get_width() / 2, height),
+                xytext=(0, 3),  # 3 points vertical offset
+                textcoords="offset points",
+                ha='center', va='bottom', rotation=45)
+
+for rect in rects2:
+    height = rect.get_height()
+    ax.annotate(f'{height:.5f}',
+                xy=(rect.get_x() + rect.get_width() / 2, height),
+                xytext=(0, 3),  # 3 points vertical offset
+                textcoords="offset points",
+                ha='center', va='bottom', rotation=45)
 
 ax.legend()
 
 fig.tight_layout()
 
 plt.show(block=True)
-

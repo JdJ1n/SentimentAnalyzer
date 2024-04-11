@@ -1,8 +1,4 @@
-import warnings
-
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-warnings.filterwarnings("ignore", category=FutureWarning)
-warnings.filterwarnings("ignore", category=Warning)
+import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
@@ -12,14 +8,19 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.dummy import DummyClassifier
-import matplotlib.pyplot as plt
-import numpy as np
+import warnings
+
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=Warning)
 
 
 class Classifier:
 
-    def __init__(self, type, params={}):
-        __classifers__ = {
+    def __init__(self, typename, params=None):
+        if params is None:
+            params = {}
+        __classifiers__ = {
             'Dummy': DummyClassifier,
             'KNN': KNeighborsClassifier,
             'M-NaiveBayes': MultinomialNB,
@@ -32,9 +33,9 @@ class Classifier:
             'AdaBoost': AdaBoostClassifier,
             'Bagging': BaggingClassifier
         }
-        if type not in __classifers__.keys():
-            raise Exception('Available Classifiers: ', __classifers__.keys())
-        self.classifier = __classifers__[type]
+        if typename not in __classifiers__.keys():
+            raise Exception('Available Classifiers: ', __classifiers__.keys())
+        self.classifier = __classifiers__[typename]
         self.params = params
         self.model = self.classifier(**self.params)
 
@@ -82,17 +83,4 @@ class Classifier:
             conf[j, k] = conf[j, k] + 1
         for i in range(0, class_num):
             confnorm[i, :] = conf[i, :] / np.sum(conf[i, :])
-        self._confusion_matrix(confnorm, labels=[i for i in range(class_num)])
         return self.model.score(tst_data, tst_labels)
-
-    def _confusion_matrix(self, cm, title='Confusion matrix', cmap=plt.cm.Blues, labels=[]):
-        plt.imshow(cm, interpolation='nearest', cmap=cmap)
-        plt.title(title)
-        plt.colorbar()
-        tick_marks = np.arange(len(labels))
-        plt.xticks(tick_marks, labels, rotation=45)
-        plt.yticks(tick_marks, labels)
-        plt.tight_layout()
-        plt.ylabel('True label')
-        plt.xlabel('Predicted label')
-        plt.show()
