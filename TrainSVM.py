@@ -11,9 +11,11 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
+filepath = 'datasets/offenseval-training-v2.tsv'
+
 nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
-dr = DataReader('datasets/offenseval-training-v2.tsv', 'A')
+dr = DataReader(filepath, 'A')
 data, labels = dr.get_labelled_data()
 
 tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)
@@ -84,7 +86,7 @@ rects2 = ax.bar(x + width / 2, f1_scores, width, label='F1 Score')
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
 ax.set_ylabel('Scores')
-ax.set_title(f'Scores by classifier (Train size: {len(tr_data)}, Test size: {len(tst_data)})')
+ax.set_title(f'Scores by classifier {filepath} \n (Train size: {len(tr_data)}, Test size: {len(tst_data)})')
 ax.set_xticks(x)
 
 # Add classifier parameters to x-axis labels
