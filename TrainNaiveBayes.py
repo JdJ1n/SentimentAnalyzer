@@ -18,15 +18,17 @@ data, labels = dr.get_labelled_data()
 
 tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)
 
-preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
-                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
+preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords',), ('stem',),
+                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem')]
 
-vectorizers = ['count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
+vectorizers = ['count', 'count', 'count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
 
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
+    ('M-NaiveBayes', {'alpha': 5, 'fit_prior': True}),
+    ('M-NaiveBayes', {'alpha': 5, 'fit_prior': True}),
     ('M-NaiveBayes', {'alpha': 5, 'fit_prior': True}),
     ('M-NaiveBayes', {'alpha': 10, 'fit_prior': True}),
     ('G-NaiveBayes', {'var_smoothing': 1e-9}),

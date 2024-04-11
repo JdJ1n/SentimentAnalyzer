@@ -18,15 +18,17 @@ data, labels = dr.get_labelled_data()
 
 tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)
 
-preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
-                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
+preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords',), ('stem',),
+                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem')]
 
-vectorizers = ['count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
+vectorizers = ['count', 'count', 'count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
 
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
+    ('DecisionTree', {'criterion': 'gini', 'min_samples_split': 2}),
+    ('DecisionTree', {'criterion': 'gini', 'min_samples_split': 2}),
     ('DecisionTree', {'criterion': 'gini', 'min_samples_split': 2}),
     ('DecisionTree', {'criterion': 'gini', 'max_depth': 10, 'min_samples_split': 2}),
     ('DecisionTree', {'criterion': 'entropy', 'min_samples_split': 2}),

@@ -18,15 +18,17 @@ data, labels = dr.get_labelled_data()
 
 tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)
 
-preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
-                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
+preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords',), ('stem',),
+                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem')]
 
-vectorizers = ['count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
+vectorizers = ['count', 'count', 'count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
 
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
+    ('RandomForest', {'n_estimators': 30, 'max_depth': 5}),
+    ('RandomForest', {'n_estimators': 30, 'max_depth': 5}),
     ('RandomForest', {'n_estimators': 30, 'max_depth': 5}),
     ('RandomForest', {'n_estimators': 100, 'max_depth': 5}),
     ('RandomForest', {'n_estimators': 30, 'max_depth': 10}),

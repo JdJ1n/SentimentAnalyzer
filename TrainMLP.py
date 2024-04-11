@@ -18,19 +18,21 @@ data, labels = dr.get_labelled_data()
 
 tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)
 
-preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
+preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords',), ('stem',),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
-                 ('remove_stopwords', 'stem')]
+                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),]
 
-vectorizers = ['count', 'count', 'count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf',
-               'tfidf', 'tfidf']
+vectorizers = ['count', 'count', 'count', 'count', 'count', 'count', 'count', 'count',
+               'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
 
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
+    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
     ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
     ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'logistic', 'solver': 'adam'}),
     ('MLP', {'hidden_layer_sizes': (50, 100), 'activation': 'relu', 'solver': 'adam'}),
