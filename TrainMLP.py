@@ -14,7 +14,7 @@ warnings.filterwarnings('ignore')
 
 nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
-dr = DataReader('datasets/offenseval-training-v2.tsv', 'A')
+dr = DataReader('datasets/offenseval-training-v1.tsv', 'A')
 data, labels = dr.get_labelled_data()
 data, labels = dr.shuffle(data, labels, 'random')
 
@@ -22,17 +22,27 @@ tr_data, tst_data, tr_labels, tst_labels = split(data, labels, test_size=0.3)
 
 preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
+                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
+                 ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
+                 ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem')]
 
-vectorizers = ['count', 'count', 'count', 'count', 'tfidf', 'tfidf']
+vectorizers = ['count', 'count', 'count', 'count', 'count', 'count', 'count', 'tfidf', 'tfidf', 'tfidf', 'tfidf', 'tfidf', 'tfidf']
 
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
-    ('M-NaiveBayes', {'alpha': 5, 'fit_prior': True}),
-    ('DecisionTree', {'criterion': 'gini', 'max_depth': 10, 'min_samples_split': 2}),
-    ('RandomForest', {'n_estimators': 30}),
-    ('SVC', {'C': 3, 'kernel': 'rbf'}),
-    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'})
+    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (50,100), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (50,100), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100,50), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100,50), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (50, 100), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (50, 100), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100, 50), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (100, 50), 'activation': 'logistic', 'solver': 'adam'}),
 ]
 
 for i in range(len(classifiers)):
@@ -70,16 +80,16 @@ for i, clf in enumerate(classifiers):
     # Append classifier name for the plot
     classifier_names.append(clf.classifier.__name__)
 
-# Ajouter des data de BERT
-bert_batch_size=40
-bert_acc, bert_f1=bert_classifier(bert_batch_size,dr)
-print(f"Accuracy: {bert_acc}, F1 Score: {bert_f1}, Classifier: BERT, Params: 'batch_size': {bert_batch_size}")
-
-# Add BERT data to the lists
-accs.append(bert_acc)
-f1_scores.append(bert_f1)
-classifier_names.append('BERT')
-bert_params = {'batch_size': bert_batch_size}
+# # Ajouter des data de BERT
+# bert_batch_size=40
+# bert_acc, bert_f1=bert_classifier(bert_batch_size,dr)
+# print(f"Accuracy: {bert_acc}, F1 Score: {bert_f1}, Classifier: BERT, Params: 'batch_size': {bert_batch_size}")
+#
+# # Add BERT data to the lists
+# accs.append(bert_acc)
+# f1_scores.append(bert_f1)
+# classifier_names.append('BERT')
+# bert_params = {'batch_size': bert_batch_size}
 
 # Plotting
 x = np.arange(len(classifier_names))  # the label locations
@@ -95,7 +105,7 @@ ax.set_title(f'Scores by classifier (Train size: {len(tr_data)}, Test size: {len
 ax.set_xticks(x)
 
 # Add classifier parameters to x-axis labels
-ax.set_xticklabels([f'{name}\\nParams: {params}' for name, params in zip(classifier_names, [clf.params for clf in classifiers] + [bert_params])], wrap=True, fontsize=8)  # Update this line
+ax.set_xticklabels([f'{name}\\nParams: {params}' for name, params in zip(classifier_names, [clf.params for clf in classifiers])], wrap=True, fontsize=8)  # Update this line
 plt.xticks(rotation=45)
 
 ax.legend()
