@@ -12,7 +12,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-filepath = 'datasets/offenseval-training-v2.tsv'
+filepath = 'datasets/offenseval-training-v3.tsv'
 
 nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
@@ -26,15 +26,15 @@ preprocessors = [('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem'),
                  ('remove_stopwords', 'stem'), ('remove_stopwords', 'stem')]
 
-vectorizers = ['count', 'count', 'count', 'count', 'tfidf', 'tfidf']
+vectorizers = ['count', 'count', 'count', 'count', 'count', 'tfidf']
 
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
     ('M-NaiveBayes', {'alpha': 5, 'fit_prior': True}),
-    ('DecisionTree', {'criterion': 'gini', 'max_depth': 10, 'min_samples_split': 2}),
-    ('RandomForest', {'n_estimators': 30}),
-    ('SVC', {'C': 3, 'kernel': 'rbf'}),
-    ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'})
+    ('DecisionTree', {'criterion': 'entropy', 'max_depth': 10, 'min_samples_split': 2}),
+    ('RandomForest', {'n_estimators': 30, 'max_depth': 10}),
+    ('SVC', {'C': 1, 'kernel': 'linear'}),
+    ('MLP', {'hidden_layer_sizes': (500,), 'activation': 'relu', 'solver': 'adam'})
 ]
 
 for i in range(len(classifiers)):
@@ -73,7 +73,7 @@ for i, clf in enumerate(classifiers):
     classifier_names.append(clf.classifier.__name__)
 
 # Ajouter des data de BERT
-bert_batch_size = 40
+bert_batch_size = 60
 bert_acc, bert_f1 = bert_classifier(bert_batch_size, dr)
 print(f"Accuracy: {bert_acc}, F1 Score: {bert_f1}, Classifier: BERT, Params: 'batch_size': {bert_batch_size}")
 

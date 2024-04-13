@@ -11,7 +11,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-filepath = 'datasets/offenseval-training-v2.tsv'
+filepath = 'datasets/offenseval-training-v1.tsv'
 
 nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
 

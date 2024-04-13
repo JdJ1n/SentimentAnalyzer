@@ -11,7 +11,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-filepath = 'datasets/offenseval-training-v2.tsv'
+filepath = 'datasets/offenseval-training-v3.tsv'
 
 nltk.download(['stopwords', 'punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
@@ -37,16 +37,16 @@ classifiers = [
     ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
     ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
     ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'logistic', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (50, 100), 'activation': 'relu', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (50, 100), 'activation': 'logistic', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (100, 50), 'activation': 'relu', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (100, 50), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (200,), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (200,), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (500,), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (500,), 'activation': 'logistic', 'solver': 'adam'}),
     ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'relu', 'solver': 'adam'}),
     ('MLP', {'hidden_layer_sizes': (100,), 'activation': 'logistic', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (50, 100), 'activation': 'relu', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (50, 100), 'activation': 'logistic', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (100, 50), 'activation': 'relu', 'solver': 'adam'}),
-    ('MLP', {'hidden_layer_sizes': (100, 50), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (200,), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (200,), 'activation': 'logistic', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (500,), 'activation': 'relu', 'solver': 'adam'}),
+    ('MLP', {'hidden_layer_sizes': (500,), 'activation': 'logistic', 'solver': 'adam'}),
 ]
 
 for i in range(len(classifiers)):

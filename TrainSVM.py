@@ -29,16 +29,16 @@ vectorizers = ['count', 'count', 'count', 'count', 'count', 'count', 'count', 't
 
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
-    ('SVC', {'C': 0.1, 'kernel': 'linear'}),
-    ('SVC', {'C': 0.1, 'kernel': 'linear'}),
-    ('SVC', {'C': 0.1, 'kernel': 'linear'}),
     ('SVC', {'C': 1, 'kernel': 'linear'}),
-    ('SVC', {'C': 0.1, 'kernel': 'rbf'}),
-    ('SVC', {'C': 1, 'kernel': 'rbf'}),
-    ('SVC', {'C': 0.1, 'kernel': 'linear'}),
     ('SVC', {'C': 1, 'kernel': 'linear'}),
-    ('SVC', {'C': 0.1, 'kernel': 'rbf'}),
+    ('SVC', {'C': 1, 'kernel': 'linear'}),
+    ('SVC', {'C': 10, 'kernel': 'linear'}),
     ('SVC', {'C': 1, 'kernel': 'rbf'}),
+    ('SVC', {'C': 10, 'kernel': 'rbf'}),
+    ('SVC', {'C': 1, 'kernel': 'linear'}),
+    ('SVC', {'C': 10, 'kernel': 'linear'}),
+    ('SVC', {'C': 1, 'kernel': 'rbf'}),
+    ('SVC', {'C': 10, 'kernel': 'rbf'}),
 ]
 
 for i in range(len(classifiers)):
