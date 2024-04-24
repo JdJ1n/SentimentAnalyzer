@@ -8,6 +8,6 @@ vectorizers = ['count']
 
 classifiers = [('Dummy', {'strategy': 'uniform'})]
 
-batch_sizes = [20, 40, 60, 80, 100, 120]
+batch_sizes = [20, 40, 60, 80, 100]
 
 train(filepath, preprocessors, vectorizers, classifiers, batch_sizes)
