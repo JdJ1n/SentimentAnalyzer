@@ -1,4 +1,4 @@
-from Pivot import train_with_bert as train
+from Processor import train_with_bert as train
 
 filepath = 'datasets/offenseval-training-v4.tsv'
 

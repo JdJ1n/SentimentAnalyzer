@@ -1,4 +1,4 @@
-from Pivot import train_without_bert as train
+from Processor import train_without_bert as train
 
 filepath = 'datasets/offenseval-training-v4.tsv'
 
