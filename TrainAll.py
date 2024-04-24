@@ -11,7 +11,7 @@ vectorizers = ['count', 'count', 'count', 'count', 'count', 'tfidf']
 classifiers = [
     ('Dummy', {'strategy': 'uniform'}),
     ('M-NaiveBayes', {'alpha': 5, 'fit_prior': True}),
-    ('DecisionTree', {'criterion': 'entropy', 'max_depth': 10, 'min_samples_split': 2}),
+    ('DecisionTree', {'criterion': 'gini', 'max_depth': 10, 'min_samples_split': 2}),
     ('RandomForest', {'n_estimators': 30, 'max_depth': 10}),
     ('SVC', {'C': 1, 'kernel': 'linear'}),
     ('MLP', {'hidden_layer_sizes': (500,), 'activation': 'relu', 'solver': 'adam'})
